@@ -12,6 +12,7 @@ requires = [
     'flask',
     'flask-sqlalchemy',
     'psycopg2',
+    'requests'
 ]
 
 setup(
