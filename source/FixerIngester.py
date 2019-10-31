@@ -8,8 +8,7 @@ Created on Wed Oct 30 19:46:25 2019
 
 import requests
 from requests.exceptions import HTTPError
-from .Database import db, CurrencyRates, Database
-import datetime
+from Database import Database
 
 class FixerIngester:
     
@@ -19,6 +18,7 @@ class FixerIngester:
         self.MY_ACCESS_KEY=accessKey
         self.currencyRates = {}
         self.database = database
+    
     
     def Ingest(self):
         
@@ -33,18 +33,16 @@ class FixerIngester:
             else:
                 print('Success!')
                 print(response.json())
-                self.currencyRates = response.json()
+                self.currencyRates[0] = response.json()
 
 
     def Add(self):
-        date = datetime.datetime.strptime(self.currencyRates['date'], '%Y-%m-%d')
-        cRates = CurrencyRates(date=date, base=self.currencyRates['base'], rate=self.currencyRates['rates']['USD'])
-        self.database.Add(cRates)
+        self.database.Add(self.currencyRates)
         return
     
-    
-    def GetCurrencyRates(self, date):
-        url = 'http://data.fixer.io/api/{}?access_key={}&symbols=USD,AUD,CAD,PLN,MXN&format=1'.format(self.MY_ACCESS_KEY, date)
+    @staticmethod
+    def GetCurrencyRates(date, accessKey):
+        url = 'http://data.fixer.io/api/{}?access_key={}&symbols=USD,AUD,CAD,PLN,MXN&format=1'.format(date, accessKey)
         try:
             response = requests.get(url)
             response.raise_for_status()
@@ -57,7 +55,7 @@ class FixerIngester:
             return response.json()
         
 
-if __name__ is "__main__":
+if __name__ == "__main__":
     myAccessKey = "c22ba25cbec7756b0aa7dfdf7bb70393"
     database = Database('sqlite:////tmp/log.db')
     database.Load()

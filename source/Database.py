@@ -8,6 +8,7 @@ Created on Wed Oct 30 20:22:16 2019
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import datetime
 
 
 app = Flask(__name__)
@@ -31,10 +32,17 @@ class Database:
         db.create_all()
     
     def Add(self, currencyRates):
-        db.session.add(currencyRates)
+        for cRate in currencyRates.values():
+            date = datetime.datetime.strptime(cRate['date'], '%Y-%m-%d')
+            dbCurrencyRate = CurrencyRates(date=date, base=cRate['base'], rate=cRate['rates']['USD'])
+            db.session.add(dbCurrencyRate)
     
     def Commit(self):
         db.session.commit()
+        return
+    
+    def Query(self):
+        # Query the database
         return
     
     def Load(self):
