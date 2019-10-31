@@ -11,14 +11,13 @@ from setuptools import setup, find_packages
 requires = [
     'flask',
     'flask-sqlalchemy',
-    'psycopg2',
     'requests'
 ]
 
 setup(
     name='FlaskDBWork',
     version='0.0',
-    description='A To-Do List built with Flask',
+    description='A currency rate ingester built with Flask',
     author='Harry Prudden',
     author_email='htprudden@gmail.com',
     keywords='web flask',
