@@ -4,7 +4,7 @@ I have included a setup file which includes all the python packages that are req
 
 In order to run it, simply navigate to the source directory where app.py is located and use 'flask run'
 
-This will run the http api for getting historical data. Navigate to the view https://yourdomainname/GetCurrencyRates/<date> to get historical data displayed. I am not saving this to the database currently, but it would be simple to pass an instance of the Database object to app.py and save historical data in it.
+This will run the http api for getting historical data. Navigate to the view https://yourdomainname/GetCurrencyRates/ followed by the date YYYY-MM-DD to get historical data displayed. I am not saving this to the database currently, but it would be simple to pass an instance of the Database object to app.py and save historical data in it.
 
 Running FixerIngester.py will load the latest data and save it to the database url specified in the file. I ran out of time,
 but one of the additional things I would have done would be to save the database url as an environment variable, then get
